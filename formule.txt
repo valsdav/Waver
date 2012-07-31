@@ -1,0 +1,2 @@
+Y = a*sen(2pi/T * t + phi)
+Y = a*sen(2pi/lambda * x + phi)
