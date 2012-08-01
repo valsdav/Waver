@@ -9,19 +9,18 @@ package it.valsecchi.waver.formule;
  *
  */
 public abstract class WaveFormula {
-
-	private WaveType wave_type = null;
+	private WaveType waveType;
 	public  float calculate(float x){
 		return 0;
 	}
 	public  float calculate(float x,float t){
 		return 0;
 	}
-	public WaveType getWaveType(){
-		return wave_type;
+	public WaveType getWaveType() {
+		return waveType;
 	}
-	public void setWaveType(WaveType type){
-		wave_type = type;
-	}
+	public void setWaveType(WaveType waveType) {
+		this.waveType = waveType;
+	}	
 	
 }
