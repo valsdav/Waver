@@ -3,67 +3,56 @@ package it.valsecchi.waver.panel;
 import it.valsecchi.waver.formule.WaveData;
 import it.valsecchi.waver.formule.WaveType;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
-public class WaveViewer extends JFrame {
+public class WaveViewer extends JFrame implements WaveChangedListener {
 
 	private static final long serialVersionUID = -275640641614487453L;
 	private JPanel contentPane;
+	private Map<String,WaveData> waves;
+	private WaveCreator creator;
+	private WavePanel panelLocal;
+	private WavePanel panelGlobal;
+	private WavePanel panelTotal;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WaveViewer frame = new WaveViewer();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public WaveViewer() {
+		waves = new HashMap<>();
+		this.initComponent();
+		creator = new WaveCreator();
+		creator.addWaveChangedListener(this);
+		creator.setVisible(true);
+	}
+	
+	private void initComponent(){
 		setTitle("Waver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1627, 987);
+		setBounds(100, 100,1800,1050);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		//si creano i pannelli
+		panelLocal = new WavePanel(WaveType.LOCAL,5,5,1500,320,100,30);
+		contentPane.add(panelLocal);
+		panelGlobal = new WavePanel(WaveType.GLOBAL,5,330,1500,320,100,30);
+		contentPane.add(panelGlobal);
+		panelTotal = new WavePanel(WaveType.TOTAL,5,655,1500,320,100,30);
+		contentPane.add(panelTotal);
+	}
 
-		WaveData data = new WaveData(20, 5, 10,0, 5);
-		WaveData data2 = new WaveData(20, 4f, 10,(float) (Math.PI/3), 5);
-		
-		WavePanel panel1 = new WavePanel(WaveType.LOCAL, 0, 0, 1200,400,50,50);
-		panel1.addWaveFormula(data.getLocalWave(0));
-		panel1.addWaveFormula(data2.getLocalWave(0));
-		panel1.addWaveFormula(WaveData.getWaveSomma(WaveType.LOCAL,data.getLocalWave(0),data2.getLocalWave(0)));
-		contentPane.add(panel1);
-		
-		WavePanel panel3 = new WavePanel(WaveType.TOTAL,0,450,1200,400,50,50);
-		panel3.setBounds(0, 450, 1404, 463);
-		panel3.setMaxY(50);
-		panel3.addWaveFormula(data.getTotalWave());
-		panel3.addWaveFormula(data2.getTotalWave());
-		panel3.addWaveFormula(WaveData.getWaveSomma(WaveType.TOTAL,data.getTotalWave(),data2.getTotalWave()));
-		contentPane.add(panel3);
-		
-		panel3.startWaveTimer();
-
+	@Override
+	public void WaveChanged(WaveData wave, String id) {
+		if(waves.containsKey(id)){
+			WaveData w = waves.get(id);
+			w = wave;
+		}else{
+			waves.put(id, wave);
+		}
 	}
 
 }
