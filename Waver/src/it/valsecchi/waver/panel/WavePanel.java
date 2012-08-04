@@ -46,7 +46,7 @@ public class WavePanel extends JPanel {
 		this.fattoreY = height / ((float) 2 * maxY);
 		this.panel_type = type;
 		if (panel_type == WaveType.LOCAL || panel_type == WaveType.TOTAL) {
-			timer = new Timer(100, new WaveTimer());
+			timer = new Timer(250, new WaveTimer());
 		}
 		this.formulae = new HashMap<>();
 		this.timer_listeners = new ArrayList<>();
@@ -129,10 +129,10 @@ public class WavePanel extends JPanel {
 				printPoint(g, x2, wave.calculate(x2));
 			}
 		case TOTAL:
-			printPoint(g, 0.5f, wave.calculate(0, time));
+			printPoint(g, 0, wave.calculate(0, time));
 			// si prende ogni punto
 			// si prende ogni punto
-			for (float xi = 1; xi < width; xi+=0.5) {
+			for (float xi = 0.5f; xi < width; xi+=0.5) {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2, time));
 			}

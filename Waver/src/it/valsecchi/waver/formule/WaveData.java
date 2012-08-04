@@ -17,8 +17,7 @@ public class WaveData {
 	private float veloc;
 	private float fase0;
 
-	public WaveData(float ampiezza, float periodo, float lambda, float fase0,
-			float velocità) {
+	public WaveData(float ampiezza, float periodo, float lambda, float fase0) {
 		this.ampiezza = ampiezza;
 		this.periodo = periodo;
 		this.lambda = lambda;
@@ -48,21 +47,20 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float t) {
-				return (float) (ampiezza * Math.sin(w * t + teta0));
+				return (float) (ampiezza * Math.sin(((2*Math.PI)/periodo)* t + teta0));
 			}
 		};
 		formula.setWaveType(WaveType.LOCAL);
 		return formula;
 	}
 
-	public WaveFormula getGlobalWave(float time) {
-		//si calcola la fase 0 per quel tempo
-		float y1 = this.getLocalWave(0f).calculate(time);
-		final float teta1= (float) Math.asin(y1/ampiezza);
-		WaveFormula formula = new WaveFormula() {
+	public WaveFormula getGlobalWave(final float time) {
+		//si richiede la total wave e si imposta il tempo
+		final WaveFormula total = this.getTotalWave();
+		WaveFormula formula = new WaveFormula(){
 			@Override
 			public float calculate(float x) {
-				return (float) (ampiezza * Math.sin(k * x + teta1));
+				return total.calculate(x,time);
 			}
 		};
 		formula.setWaveType(WaveType.GLOBAL);
@@ -73,7 +71,7 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float x, float t) {
-				return (float) (ampiezza * Math.sin(k * x - veloc * t + fase0));
+				return (float) (ampiezza * Math.sin(((Math.PI*2)/lambda) * x - veloc * t + fase0));
 			}
 		};
 		formula.setWaveType(WaveType.TOTAL);

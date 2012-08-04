@@ -26,8 +26,6 @@ public class WaveCreator extends JFrame {
 	private JPanel contentPane;
 	private JPanel panel;
 	private JButton btnNewOnda;
-	private JTextPane txtVelocità;
-	private JLabel lblVelocit;
 	private JLabel lblAmpiezza;
 	private JTextPane txtFase0;
 	private JLabel lblFaseIniziale;
@@ -36,8 +34,6 @@ public class WaveCreator extends JFrame {
 	private JTextPane txtAmpiezza;
 	private JLabel lblLunghezzaDonda;
 	private JTextPane txtLambda;
-	private JTextPane txtFrequenza;
-	private JLabel lblFrequenza;
 	private JPanel panel_1;
 	private JTable table;
 	private int counter= 0;
@@ -105,73 +101,41 @@ public class WaveCreator extends JFrame {
 		txtFase0 = new JTextPane();
 		
 		lblFaseIniziale = new JLabel("Fase Iniziale:");
-		
-		txtVelocità = new JTextPane();
-		
-		lblVelocit = new JLabel("Velocit\u00E0:");
-		txtFrequenza = new JTextPane();
-		lblFrequenza = new JLabel("Frequenza:");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblVelocit, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(txtVelocità, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblAmpiezza)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(txtAmpiezza, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
+					.addComponent(lblAmpiezza)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtAmpiezza, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblPeriodo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtPeriodo, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblFrequenza, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtFrequenza, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-							.addGap(52)
-							.addComponent(lblFaseIniziale, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtFase0, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblLunghezzaDonda)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(txtLambda, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))))
+					.addComponent(lblPeriodo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtPeriodo, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblLunghezzaDonda)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtLambda, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+					.addGap(24)
+					.addComponent(lblFaseIniziale, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtFase0, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(txtFrequenza, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtLambda, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblFaseIniziale)
 						.addComponent(txtFase0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtPeriodo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(6)
-									.addComponent(lblPeriodo))
-								.addComponent(lblAmpiezza)
-								.addComponent(txtAmpiezza, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(lblFrequenza))
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(6)
-							.addComponent(lblVelocit))
-						.addComponent(txtVelocità, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-							.addComponent(txtLambda, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblLunghezzaDonda)))
-					.addContainerGap(117, Short.MAX_VALUE))
+						.addComponent(lblPeriodo)
+						.addComponent(lblAmpiezza)
+						.addComponent(txtAmpiezza, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblLunghezzaDonda))
+					.addContainerGap(72, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
@@ -189,8 +153,7 @@ public class WaveCreator extends JFrame {
 					Float.parseFloat(txtAmpiezza.getText()),
 					Float.parseFloat(txtPeriodo.getText()),
 					Float.parseFloat(txtLambda.getText()),
-					Float.parseFloat(txtFase0.getText()),
-					Float.parseFloat(txtVelocità.getText()));
+					Float.parseFloat(txtFase0.getText()));
 			//si aggiunge
 			counter+= 1;
 			waves.put(getCounter(), wave);
