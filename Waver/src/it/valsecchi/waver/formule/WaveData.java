@@ -1,5 +1,7 @@
 package it.valsecchi.waver.formule;
 
+import java.util.Collection;
+
 /**
  * Classe che rappresenta tutti i dati dell'onda
  * 
@@ -47,7 +49,7 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float t) {
-				return (float) (ampiezza * Math.sin(((2*Math.PI)/periodo)* t + teta0));
+				return (float) (ampiezza * Math.sin(w* t + teta0));
 			}
 		};
 		formula.setWaveType(WaveType.LOCAL);
@@ -71,7 +73,7 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float x, float t) {
-				return (float) (ampiezza * Math.sin(((Math.PI*2)/lambda) * x - veloc * t + fase0));
+				return (float) (ampiezza * Math.sin(k*(x - veloc * t) + fase0));
 			}
 		};
 		formula.setWaveType(WaveType.TOTAL);
@@ -79,7 +81,7 @@ public class WaveData {
 	}
 
 	public static WaveFormula getWaveSomma(WaveType type,
-			final WaveFormula... waves) {
+			final Collection<WaveFormula> waves) {
 		switch (type) {
 		case LOCAL:
 			WaveFormula formula = new WaveFormula() {
@@ -113,7 +115,7 @@ public class WaveData {
 				public float calculate(float x, float t) {
 					float result = 0;
 					for (WaveFormula wave : waves) {
-						result += wave.calculate(x, t);
+						result = result + wave.calculate(x, t);
 					}
 					return result;
 				}

@@ -140,6 +140,18 @@ public class WaveViewer extends JFrame implements WaveChangedListener,
 		});
 		btnNewButton.setBounds(1629, 29, 61, 25);
 		contentPane.add(btnNewButton);
+		
+		JButton btnInterferisci = new JButton("Interferisci");
+		btnInterferisci.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panelTotal.addInterferenza();
+				panelLocal.addInterferenza();
+				panelGlobal.addInterferenza();
+				repaint();
+			}
+		});
+		btnInterferisci.setBounds(1537, 207, 97, 25);
+		contentPane.add(btnInterferisci);
 
 	}
 

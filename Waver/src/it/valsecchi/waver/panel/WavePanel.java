@@ -1,5 +1,6 @@
 package it.valsecchi.waver.panel;
 
+import it.valsecchi.waver.formule.WaveData;
 import it.valsecchi.waver.formule.WaveFormula;
 import it.valsecchi.waver.formule.WaveType;
 
@@ -30,7 +31,7 @@ public class WavePanel extends JPanel {
 	private WaveType panel_type;
 	private float time = 0;
 	private Timer timer;
-	private float time_add = 0.25f;
+	private float time_add = 0.1f;
 	private Map<String, WaveFormula> formulae;
 	private List<TimerListener> timer_listeners;
 
@@ -45,8 +46,8 @@ public class WavePanel extends JPanel {
 		this.fattoreX = width / ((float) maxX);
 		this.fattoreY = height / ((float) 2 * maxY);
 		this.panel_type = type;
-		if (panel_type == WaveType.LOCAL || panel_type == WaveType.TOTAL) {
-			timer = new Timer(250, new WaveTimer());
+		if ( panel_type == WaveType.TOTAL) {
+			timer = new Timer(100, new WaveTimer());
 		}
 		this.formulae = new HashMap<>();
 		this.timer_listeners = new ArrayList<>();
@@ -132,7 +133,7 @@ public class WavePanel extends JPanel {
 			printPoint(g, 0, wave.calculate(0, time));
 			// si prende ogni punto
 			// si prende ogni punto
-			for (float xi = 0.5f; xi < width; xi+=0.5) {
+			for (float xi = 0.5f; xi < width; xi+=0.5f) {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2, time));
 			}
@@ -180,6 +181,18 @@ public class WavePanel extends JPanel {
 			break;
 		}
 	}
+	
+	public void addInterferenza(){
+		if(formulae.size()>=2){
+			List<WaveFormula> fors = new ArrayList<>();
+			for(WaveFormula f : this.formulae.values()){
+				fors.add(f);
+			}
+			WaveFormula somma= WaveData.getWaveSomma(this.panel_type,fors);
+			this.addWaveFormula("interferenza",somma);
+		}
+	}
+	
 	
 	public int getWidth() {
 		return width;
