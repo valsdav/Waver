@@ -40,6 +40,7 @@ public class WaveCreator extends JFrame {
 	private JLabel lblFrequenza;
 	private JPanel panel_1;
 	private JTable table;
+	private int counter= 0;
 	private Map<String,WaveData > waves;
 	private List<WaveChangedListener> listeners;
 
@@ -191,11 +192,15 @@ public class WaveCreator extends JFrame {
 					Float.parseFloat(txtFase0.getText()),
 					Float.parseFloat(txtVelocità.getText()));
 			//si aggiunge
-			String id = Utility.generateID();
-			waves.put(id, wave);
+			counter+= 1;
+			waves.put(getCounter(), wave);
 			for(WaveChangedListener l : listeners){
-				l.WaveChanged(wave, id);
+				l.WaveChanged(wave,getCounter());
 			}
 		}
+	}
+	
+	private String getCounter(){
+		return Integer.toString(counter);
 	}
 }

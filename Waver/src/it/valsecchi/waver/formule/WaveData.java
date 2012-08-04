@@ -25,7 +25,7 @@ public class WaveData {
 		this.w = (float) ((Math.PI * 2) / periodo);
 		this.k = (float) ((Math.PI * 2) / lambda);
 		this.frequenza = 1 / periodo;
-		this.veloc = velocità;
+		this.veloc = lambda/periodo;
 		this.fase0 = fase0;
 	}
 
@@ -40,7 +40,7 @@ public class WaveData {
 		this.fase0 = 0;
 	}
 
-	public WaveFormula getLocalWave(int x) {
+	public WaveFormula getLocalWave(float x) {
 		// si deve calcolare la fase iniziale
 		// prima di tutto si trova l'h0 per quel punto al tempo 0
 		float y0 = (float) (Math.sin(k * x + fase0));
@@ -56,10 +56,13 @@ public class WaveData {
 	}
 
 	public WaveFormula getGlobalWave(float time) {
+		//si calcola la fase 0 per quel tempo
+		float y1 = this.getLocalWave(0f).calculate(time);
+		final float teta1= (float) Math.asin(y1/ampiezza);
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float x) {
-				return (float) (ampiezza * Math.sin(k * x + fase0));
+				return (float) (ampiezza * Math.sin(k * x + teta1));
 			}
 		};
 		formula.setWaveType(WaveType.GLOBAL);

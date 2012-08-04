@@ -8,7 +8,11 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.Timer;
 
 import javax.swing.JPanel;
@@ -25,8 +29,9 @@ public class WavePanel extends JPanel {
 	private WaveType panel_type;
 	private float time = 0;
 	private Timer timer;
-	private float time_add = 0.10f;
-	private List<WaveFormula> formulae;
+	private float time_add = 0.25f;
+	private Map<String, WaveFormula> formulae;
+	private List<TimerListener> timer_listeners;
 
 	public WavePanel(WaveType type, int x, int y, int width, int height,
 			int maxX, int maxY) {
@@ -40,22 +45,27 @@ public class WavePanel extends JPanel {
 		this.fattoreY = height / ((float) 2 * maxY);
 		this.panel_type = type;
 		if (panel_type == WaveType.LOCAL || panel_type == WaveType.TOTAL) {
-			timer = new Timer(100, new WaveTimer());
+			timer = new Timer(250, new WaveTimer());
 		}
-		this.formulae = new ArrayList<>();
+		this.formulae = new HashMap<>();
+		this.timer_listeners = new ArrayList<>();
 	}
 
-	public boolean addWaveFormula(WaveFormula formula) {
+	public boolean addWaveFormula(String id, WaveFormula formula) {
 		if (formula.getWaveType() == panel_type) {
-			if (formulae.size() < 4) {
-				formulae.add(formula);
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
+			formulae.put(id, formula);
 		}
+		return false;
+	}
+
+	public void removeWaveFormula(String id) {
+		if (formulae.containsKey(id)) {
+			formulae.remove(id);
+		}
+	}
+
+	public void addTimerListener(TimerListener t) {
+		timer_listeners.add(t);
 	}
 
 	public void startWaveTimer() {
@@ -77,19 +87,22 @@ public class WavePanel extends JPanel {
 		g.drawLine(0, 0, 0, height);
 		// ora si disegna
 		int c = 0;
-		for (WaveFormula wave : formulae) {
-			switch(c){
+		for (WaveFormula wave : formulae.values()) {
+			switch (c) {
 			case 0:
 				printWave(g, wave, Color.BLUE);
-				c+= 1;
+				c += 1;
 				break;
-			case 1: 
+			case 1:
 				printWave(g, wave, Color.GREEN);
-				c+= 1;
+				c += 1;
 				break;
 			case 2:
 				printWave(g, wave, Color.RED);
-				c+= 1;
+				c += 1;
+				break;
+			default:
+				printWave(g, wave, Color.BLUE);
 				break;
 			}
 		}
@@ -114,7 +127,6 @@ public class WavePanel extends JPanel {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2));
 			}
-
 		case TOTAL:
 			printPoint(g, 0, wave.calculate(0, time));
 			// si prende ogni punto
@@ -139,6 +151,10 @@ public class WavePanel extends JPanel {
 			time += time_add;
 			// si ridisegna
 			repaint();
+			// si avvisa
+			for (TimerListener t : timer_listeners) {
+				t.currentTimer(time);
+			}
 		}
 	}
 
@@ -168,8 +184,8 @@ public class WavePanel extends JPanel {
 		this.fattoreY = height / ((float) 2 * maxY);
 	}
 
-	public List<WaveFormula> getFormulae() {
-		return formulae;
+	public Collection<WaveFormula> getFormulae() {
+		return formulae.values();
 	}
 
 	public WaveType getPanel_type() {
@@ -182,6 +198,15 @@ public class WavePanel extends JPanel {
 
 	public void setTime_add(float time_add) {
 		this.time_add = time_add;
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public void setTime(float t) {
+		time = t;
+		repaint();
 	}
 
 }
