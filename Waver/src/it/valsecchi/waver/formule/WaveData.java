@@ -26,7 +26,7 @@ public class WaveData {
 		this.w = (float) ((Math.PI * 2) / periodo);
 		this.k = (float) ((Math.PI * 2) / lambda);
 		this.frequenza = 1 / periodo;
-		this.veloc = lambda/periodo;
+		this.veloc = lambda / periodo;
 		this.fase0 = fase0;
 	}
 
@@ -49,7 +49,12 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float t) {
-				return (float) (ampiezza * Math.sin(w* t + teta0));
+				return (float) (ampiezza * Math.sin(w * t + teta0));
+			}
+
+			@Override
+			public float calculate(float x, float t) {
+				return 0;
 			}
 		};
 		formula.setWaveType(WaveType.LOCAL);
@@ -57,12 +62,17 @@ public class WaveData {
 	}
 
 	public WaveFormula getGlobalWave(final float time) {
-		//si richiede la total wave e si imposta il tempo
+		// si richiede la total wave e si imposta il tempo
 		final WaveFormula total = this.getTotalWave();
-		WaveFormula formula = new WaveFormula(){
+		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float x) {
-				return total.calculate(x,time);
+				return total.calculate(x, time);
+			}
+
+			@Override
+			public float calculate(float x, float t) {
+				return 0;
 			}
 		};
 		formula.setWaveType(WaveType.GLOBAL);
@@ -73,7 +83,13 @@ public class WaveData {
 		WaveFormula formula = new WaveFormula() {
 			@Override
 			public float calculate(float x, float t) {
-				return (float) (ampiezza * Math.sin(k*(x - veloc * t) + fase0));
+				return (float) (ampiezza * Math
+						.sin(k * (x - veloc * t) + fase0));
+			}
+
+			@Override
+			public float calculate(float x) {
+				return 0;
 			}
 		};
 		formula.setWaveType(WaveType.TOTAL);
@@ -93,6 +109,11 @@ public class WaveData {
 					}
 					return result;
 				}
+
+				@Override
+				public float calculate(float x, float t) {
+					return 0;
+				}
 			};
 			formula.setWaveType(WaveType.LOCAL);
 			return formula;
@@ -106,6 +127,11 @@ public class WaveData {
 					}
 					return result;
 				}
+
+				@Override
+				public float calculate(float x, float t) {
+					return 0;
+				}
 			};
 			formula2.setWaveType(WaveType.GLOBAL);
 			return formula2;
@@ -118,6 +144,11 @@ public class WaveData {
 						result = result + wave.calculate(x, t);
 					}
 					return result;
+				}
+
+				@Override
+				public float calculate(float x) {
+					return 0;
 				}
 			};
 			formula3.setWaveType(WaveType.TOTAL);

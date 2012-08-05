@@ -10,12 +10,8 @@ package it.valsecchi.waver.formule;
  */
 public abstract class WaveFormula {
 	private WaveType waveType;
-	public  float calculate(float x){
-		return 0;
-	}
-	public  float calculate(float x,float t){
-		return 0;
-	}
+	public  abstract float calculate(float x);
+	public abstract float calculate(float x,float t);
 	public WaveType getWaveType() {
 		return waveType;
 	}

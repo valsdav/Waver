@@ -1,7 +1,9 @@
 package it.valsecchi.waver.panel;
 
+import it.valsecchi.waver.formule.TimerListener;
 import it.valsecchi.waver.formule.WaveData;
 import it.valsecchi.waver.formule.WaveFormula;
+import it.valsecchi.waver.formule.WaveManager;
 import it.valsecchi.waver.formule.WaveType;
 
 import java.awt.Color;
@@ -18,12 +20,12 @@ import javax.swing.Timer;
 
 import javax.swing.JPanel;
 
-public class WavePanelGraph extends JPanel {
+public class WavePanelGraph extends JPanel{
 
 	private static final long serialVersionUID = -6584631792178767173L;
 	private int width;
 	private int height;
-	private int maxX;
+	private int maxX ;
 	private int maxY;
 	private float fattoreX;
 	private float fattoreY;
@@ -53,13 +55,12 @@ public class WavePanelGraph extends JPanel {
 		this.timer_listeners = new ArrayList<>();
 	}
 
-	public boolean addWaveFormula(String id, WaveFormula formula) {
+	public void addWaveFormula(String id, WaveFormula formula) {
 		if (formula.getWaveType() == panel_type) {
 			formulae.put(id, formula);
 		}
-		return false;
 	}
-
+	
 	public void removeWaveFormula(String id) {
 		if (formulae.containsKey(id)) {
 			formulae.remove(id);
@@ -82,8 +83,6 @@ public class WavePanelGraph extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// si disegnano gli assi
-		g.setColor(Color.black);
-		g.drawRect(0, 0, width - 1, height - 1);
 		g.setColor(Color.red);
 		g.drawLine(0, height / 2, width, height / 2);
 		g.drawLine(0, 0, 0, height);
@@ -254,5 +253,4 @@ public class WavePanelGraph extends JPanel {
 	public void setValues_interval(int values_interval) {
 		this.values_interval = values_interval;
 	}
-
 }

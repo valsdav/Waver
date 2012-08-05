@@ -1,4 +1,4 @@
-package it.valsecchi.waver.panel;
+package it.valsecchi.waver.formule;
 
 public interface TimerListener {
 
