@@ -18,7 +18,7 @@ import javax.swing.Timer;
 
 import javax.swing.JPanel;
 
-public class WavePanel extends JPanel {
+public class WavePanelGraph extends JPanel {
 
 	private static final long serialVersionUID = -6584631792178767173L;
 	private int width;
@@ -31,11 +31,11 @@ public class WavePanel extends JPanel {
 	private WaveType panel_type;
 	private float time = 0;
 	private Timer timer;
-	private float time_add = 0.1f;
+	private float time_add = 0.25f;
 	private Map<String, WaveFormula> formulae;
 	private List<TimerListener> timer_listeners;
 
-	public WavePanel(WaveType type, int x, int y, int width, int height,
+	public WavePanelGraph(WaveType type, int x, int y, int width, int height,
 			int maxX, int maxY) {
 		super();
 		this.setBounds(x, y, width, height);
@@ -209,6 +209,7 @@ public class WavePanel extends JPanel {
 	public void setMaxX(int maxX) {
 		this.maxX = maxX;
 		this.fattoreX = width / ((float) maxX);
+		repaint();
 	}
 
 	public int getMaxY() {
@@ -218,6 +219,7 @@ public class WavePanel extends JPanel {
 	public void setMaxY(int maxY) {
 		this.maxY = maxY;
 		this.fattoreY = height / ((float) 2 * maxY);
+		repaint();
 	}
 
 	public Collection<WaveFormula> getFormulae() {

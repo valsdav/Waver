@@ -21,9 +21,9 @@ public class WaveViewer extends JFrame implements WaveChangedListener,
 	private JPanel contentPane;
 	private Map<WaveData, String> waves;
 	private WaveCreator creator;
-	private WavePanel panelLocal;
-	private WavePanel panelGlobal;
-	private WavePanel panelTotal;
+	private WavePanelGraph panelLocal;
+	private WavePanelGraph panelGlobal;
+	private WavePanelGraph panelTotal;
 	private JTextField txtX;
 	private JTextField txtT;
 	private JButton btnStart;
@@ -49,10 +49,10 @@ public class WaveViewer extends JFrame implements WaveChangedListener,
 		contentPane.setLayout(null);
 
 		// si creano i pannelli
-		panelTotal = new WavePanel(WaveType.TOTAL, 5, 5, 1500, 320, 100, 30);
+		panelTotal = new WavePanelGraph(WaveType.TOTAL, 5, 5, 1500, 320, 100, 30);
 		panelTotal.addTimerListener(this);
-		panelGlobal = new WavePanel(WaveType.GLOBAL, 5, 330, 1500, 320, 100, 30);
-		panelLocal = new WavePanel(WaveType.LOCAL, 5, 655, 1500, 320, 100, 30);
+		panelGlobal = new WavePanelGraph(WaveType.GLOBAL, 5, 330, 1500, 320, 100, 30);
+		panelLocal = new WavePanelGraph(WaveType.LOCAL, 5, 655, 1500, 320, 100, 30);
 		contentPane.add(panelTotal);
 		contentPane.add(panelGlobal);
 		contentPane.add(panelLocal);
