@@ -24,14 +24,15 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 	private JPanel panel;
 
 	public WavePanel(WaveType type, int x, int y, int width, int height,
-			int maxX, int maxY) {
+			int maxX) {
 		this.setBounds(x, y, width, height);
 		this.panel_type = type;
 		this.width = width;
 		this.height = height;
 		this.waves = new HashMap<>();
+		//maxY impostata di default a 10;
 		this.graph = new WavePanelGraph(type, 5, 5, width - (width / 6),
-				height - 11, maxX, maxY);
+				height - 11, maxX, 10);
 		graph.addTimerListener(this);
 		panel = this;
 		panel.setLayout(null);
@@ -67,12 +68,13 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 					graph.stopWaveTimer();
 				}
 			});
-			total_widget.btnInterferenza.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					graph.addInterferenza();
-				}
-			});
+			total_widget.btnInterferenza
+					.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							graph.addInterferenza();
+						}
+					});
 			break;
 		}
 	}
@@ -98,7 +100,7 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 		}
 		waves.put(id, formula);
 		graph.addWaveFormula(id, formula);
-		graph.setMaxX(graph.getMaxX()+ (int)wave.getAmpiezza());
+	    graph.setMaxY(graph.getMaxY() + (int) wave.getAmpiezza());
 		graph.repaint();
 	}
 
@@ -111,7 +113,7 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 
 	@Override
 	public void currentTimer(float t) {
-		switch(panel_type){
+		switch (panel_type) {
 		case TOTAL:
 			total_widget.txtTime.setText(Float.toString(t));
 		}

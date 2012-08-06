@@ -32,9 +32,9 @@ public class WaveViewer extends JFrame {
 		contentPane.setLayout(null);
 
 		// si creano i pannelli
-		panelTotal = new WavePanel(WaveType.TOTAL, 5, 5, 1500, 320, 100, 30);
-		panelGlobal = new WavePanel(WaveType.GLOBAL, 5, 330, 1500, 320, 100, 30);
-		panelLocal = new WavePanel(WaveType.LOCAL, 5, 655, 1500, 320, 100, 30);
+		panelTotal = new WavePanel(WaveType.TOTAL, 5, 5, 1500, 320, 100);
+		panelGlobal = new WavePanel(WaveType.GLOBAL, 5, 330, 1500, 320, 100);
+		panelLocal = new WavePanel(WaveType.LOCAL, 5, 655, 1500, 320, 100);
 		contentPane.add(panelTotal);
 		contentPane.add(panelGlobal);
 		contentPane.add(panelLocal);
