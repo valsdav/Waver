@@ -1,16 +1,15 @@
 package it.valsecchi.waver.panel;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-
 import it.valsecchi.waver.formule.TimerListener;
 import it.valsecchi.waver.formule.WaveData;
 import it.valsecchi.waver.formule.WaveFormula;
 import it.valsecchi.waver.formule.WaveManager;
 import it.valsecchi.waver.formule.WaveType;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class WavePanel extends JPanel implements WaveManager, TimerListener {
@@ -19,6 +18,7 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 	private int width;
 	private int height;
 	private WaveType panel_type;
+	private TotalWaveWidget total_widget;
 	private Map<String, WaveFormula> waves;
 	private WavePanelGraph graph;
 	private JPanel panel;
@@ -39,14 +39,44 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 		initComponent();
 	}
 
-	private void initComponent(){
-		//si aggiungono i pulsanti in base al tipo
-		switch(panel_type){
+	private void initComponent() {
+		// si aggiungono i pulsanti in base al tipo
+		switch (panel_type) {
 		case TOTAL:
-			
+			total_widget = new TotalWaveWidget();
+			total_widget.setBounds(width - (width / 6), 5, width / 6 - 5,
+					height - 11);
+			panel.add(total_widget);
+			total_widget.txtTime.setText("0.0");
+			total_widget.btnSet.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setTime(Float.parseFloat(total_widget.txtTime
+							.getText()));
+				}
+			});
+			total_widget.btnStart.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.startWaveTimer();
+				}
+			});
+			total_widget.btnStop.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.stopWaveTimer();
+				}
+			});
+			total_widget.btnInterferenza.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.addInterferenza();
+				}
+			});
+			break;
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.drawRect(0, 0, width - 1, height - 1);
@@ -66,8 +96,9 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 			formula = wave.getTotalWave();
 			break;
 		}
-		waves.put(id,formula);
+		waves.put(id, formula);
 		graph.addWaveFormula(id, formula);
+		graph.setMaxX(graph.getMaxX()+ (int)wave.getAmpiezza());
 		graph.repaint();
 	}
 
@@ -80,6 +111,9 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 
 	@Override
 	public void currentTimer(float t) {
-
+		switch(panel_type){
+		case TOTAL:
+			total_widget.txtTime.setText(Float.toString(t));
+		}
 	}
 }

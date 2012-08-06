@@ -33,7 +33,7 @@ public class WavePanelGraph extends JPanel{
 	private WaveType panel_type;
 	private float time = 0;
 	private Timer timer;
-	private float time_add = 0.25f;
+	private float time_add = 0.1f;
 	private Map<String, WaveFormula> formulae;
 	private List<TimerListener> timer_listeners;
 
@@ -189,6 +189,7 @@ public class WavePanelGraph extends JPanel{
 			}
 			WaveFormula somma= WaveData.getWaveSomma(this.panel_type,fors);
 			this.addWaveFormula("interferenza",somma);
+			repaint();
 		}
 	}
 	
