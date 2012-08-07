@@ -89,16 +89,16 @@ public class WavePanelGraph extends JPanel {
 		// si disegnano i valori
 		this.printValues(g, values_interval);
 		// ora si disegna
-		int c = 0;
+		int paint_index = 0;
 		for (String id : formulae.keySet()) {
 			if (id.equals("interferenza")) {
 				printWave(g, formulae.get(id), Color.RED);
-			}else if((c%2)==0){
+			}else if((paint_index%2)==0){
 				printWave(g, formulae.get(id), Color.BLUE);
-				c+=1;
-			}else if((c%2)==1){
+				paint_index+=1;
+			}else if((paint_index%2)==1){
 				printWave(g, formulae.get(id), Color.GREEN);
-				c+=1;
+				paint_index+=1;
 			}
 		}
 	}
