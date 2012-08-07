@@ -20,16 +20,16 @@ import javax.swing.Timer;
 
 import javax.swing.JPanel;
 
-public class WavePanelGraph extends JPanel{
+public class WavePanelGraph extends JPanel {
 
 	private static final long serialVersionUID = -6584631792178767173L;
 	private int width;
 	private int height;
-	private int maxX ;
+	private int maxX;
 	private int maxY;
 	private float fattoreX;
 	private float fattoreY;
-	private int values_interval= 5;
+	private int values_interval = 5;
 	private WaveType panel_type;
 	private float time = 0;
 	private Timer timer;
@@ -48,7 +48,7 @@ public class WavePanelGraph extends JPanel{
 		this.fattoreX = width / ((float) maxX);
 		this.fattoreY = height / ((float) 2 * maxY);
 		this.panel_type = type;
-		if ( panel_type == WaveType.TOTAL) {
+		if (panel_type == WaveType.TOTAL) {
 			timer = new Timer(100, new WaveTimer());
 		}
 		this.formulae = new HashMap<>();
@@ -60,7 +60,7 @@ public class WavePanelGraph extends JPanel{
 			formulae.put(id, formula);
 		}
 	}
-	
+
 	public void removeWaveFormula(String id) {
 		if (formulae.containsKey(id)) {
 			formulae.remove(id);
@@ -86,27 +86,19 @@ public class WavePanelGraph extends JPanel{
 		g.setColor(Color.red);
 		g.drawLine(0, height / 2, width, height / 2);
 		g.drawLine(0, 0, 0, height);
-		//si disegnano i valori
+		// si disegnano i valori
 		this.printValues(g, values_interval);
 		// ora si disegna
 		int c = 0;
-		for (WaveFormula wave : formulae.values()) {
-			switch (c) {
-			case 0:
-				printWave(g, wave, Color.BLUE);
-				c += 1;
-				break;
-			case 1:
-				printWave(g, wave, Color.GREEN);
-				c += 1;
-				break;
-			case 2:
-				printWave(g, wave, Color.RED);
-				c += 1;
-				break;
-			default:
-				printWave(g, wave, Color.BLUE);
-				break;
+		for (String id : formulae.keySet()) {
+			if (id.equals("interferenza")) {
+				printWave(g, formulae.get(id), Color.RED);
+			}else if((c%2)==0){
+				printWave(g, formulae.get(id), Color.BLUE);
+				c+=1;
+			}else if((c%2)==1){
+				printWave(g, formulae.get(id), Color.GREEN);
+				c+=1;
 			}
 		}
 	}
@@ -117,14 +109,14 @@ public class WavePanelGraph extends JPanel{
 		case LOCAL:
 			printPoint(g, 0, wave.calculate(0));
 			// si prende ogni punto
-			for (float xi = 0.5f; xi < width; xi+=0.5) {
+			for (float xi = 0.5f; xi < width; xi += 0.5) {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2));
 			}
 		case GLOBAL:
 			printPoint(g, 0, wave.calculate(0));
 			// si prende ogni punto
-			for (float xi = 0.5f; xi < width; xi+=0.5f) {
+			for (float xi = 0.5f; xi < width; xi += 0.5f) {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2));
 			}
@@ -132,7 +124,7 @@ public class WavePanelGraph extends JPanel{
 			printPoint(g, 0, wave.calculate(0, time));
 			// si prende ogni punto
 			// si prende ogni punto
-			for (float xi = 0.5f; xi < width; xi+=0.5f) {
+			for (float xi = 0.5f; xi < width; xi += 0.5f) {
 				float x2 = xi / fattoreX;
 				printPoint(g, x2, wave.calculate(x2, time));
 			}
@@ -159,41 +151,46 @@ public class WavePanelGraph extends JPanel{
 		}
 	}
 
-	private void printValues(Graphics g, int interval){
-		for(int i = 0; i<=maxX; i+=interval){
-			g.drawLine(Math.round(i*fattoreX), height/2+5, Math.round(i*fattoreX), height/2-5);
-			g.drawString(Integer.toString(i), Math.round(i*fattoreX),height/2+20);
+	private void printValues(Graphics g, int interval) {
+		for (int i = 0; i <= maxX; i += interval) {
+			g.drawLine(Math.round(i * fattoreX), height / 2 + 5,
+					Math.round(i * fattoreX), height / 2 - 5);
+			g.drawString(Integer.toString(i), Math.round(i * fattoreX),
+					height / 2 + 20);
 		}
-		for(int z = -maxY;z<=maxY;z+= interval){
-			g.drawLine(0,height/2-Math.round(z*fattoreY),10,height/2-Math.round(z*fattoreY));
-			g.drawString(Integer.toString(z), 15,height/2-Math.round((z*fattoreY)));
+		for (int z = -maxY; z <= maxY; z += interval) {
+			g.drawLine(0, height / 2 - Math.round(z * fattoreY), 10, height / 2
+					- Math.round(z * fattoreY));
+			g.drawString(Integer.toString(z), 15,
+					height / 2 - Math.round((z * fattoreY)));
 		}
-		//si scrivono le unità di misura
+		// si scrivono le unità di misura
 		g.drawString("y", 50, 20);
-		switch(this.panel_type){
+		switch (this.panel_type) {
 		case TOTAL:
 		case GLOBAL:
-			g.drawString("m(metri)",width-55, height/2-10);
+			g.drawString("m(metri)", width - 55, height / 2 - 10);
 			break;
 		case LOCAL:
-			g.drawString("t(secondi)",width-55, height/2-10);
+			g.drawString("t(secondi)", width - 55, height / 2 - 10);
 			break;
 		}
 	}
-	
-	public void addInterferenza(){
-		if(formulae.size()>=2){
+
+	public void addInterferenza() {
+		if (formulae.size() >= 2) {
 			List<WaveFormula> fors = new ArrayList<>();
-			for(WaveFormula f : this.formulae.values()){
-				fors.add(f);
+			for (String id:formulae.keySet()){
+				if(!id.equals("interferenza")){
+					fors.add(formulae.get(id));
+				}
 			}
-			WaveFormula somma= WaveData.getWaveSomma(this.panel_type,fors);
-			this.addWaveFormula("interferenza",somma);
+			WaveFormula somma = WaveData.getWaveSomma(this.panel_type, fors);
+			this.addWaveFormula("interferenza", somma);
 			repaint();
 		}
 	}
-	
-	
+
 	public int getWidth() {
 		return width;
 	}
@@ -224,6 +221,10 @@ public class WavePanelGraph extends JPanel{
 
 	public Collection<WaveFormula> getFormulae() {
 		return formulae.values();
+	}
+	
+	public Map<String,WaveFormula> getFormulaeMap(){
+		return formulae;
 	}
 
 	public WaveType getPanel_type() {
