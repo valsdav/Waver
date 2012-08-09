@@ -254,5 +254,6 @@ public class WavePanelGraph extends JPanel {
 
 	public void setValues_interval(int values_interval) {
 		this.values_interval = values_interval;
+		repaint();
 	}
 }
