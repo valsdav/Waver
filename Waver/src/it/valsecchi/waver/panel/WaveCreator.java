@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class WaveCreator extends JFrame {
 
@@ -42,6 +43,7 @@ public class WaveCreator extends JFrame {
 	private List<WaveManager> listeners;
 
 	public WaveCreator() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WaveCreator.class.getResource("/it/valsecchi/waver/panel/wave_ico.png")));
 		setTitle("Waver");
 		waves = new HashMap<>();
 		listeners = new ArrayList<>();

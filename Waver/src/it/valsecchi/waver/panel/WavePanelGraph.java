@@ -227,6 +227,14 @@ public class WavePanelGraph extends JPanel {
 		return formulae;
 	}
 
+	public boolean containsFormula(String id){
+		return formulae.containsKey(id);
+	}
+	
+	public boolean containsFormula(WaveFormula formula){
+		return formulae.containsValue(formula);
+	}
+	
 	public WaveType getPanel_type() {
 		return panel_type;
 	}

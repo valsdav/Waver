@@ -10,14 +10,12 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 
-public class TotalWaveWidget extends JPanel{
+public class GlobalWaveWidget extends JPanel{
 
 	private static final long serialVersionUID = -8001414059016730700L;
-	public JButton btnStart;
-	public JButton btnStop;
 	public JTextField txtTime;
 	public JButton btnSetTime;
-	public JLabel lblTime;
+	public JLabel lblT;
 	public JButton btnInterferenza;
 	public JTextField txtMaxX;
 	public JLabel lblMaxY;
@@ -28,19 +26,15 @@ public class TotalWaveWidget extends JPanel{
 	public JTextField txtInterval;
 	public JButton btnInterval;
 
-	public TotalWaveWidget() {
+	public GlobalWaveWidget() {
 		
-		lblTime = new JLabel("t=");
-		lblTime.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblT = new JLabel("t=");
+		lblT.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		txtTime = new JTextField();
 		txtTime.setColumns(10);
 		
 		btnSetTime = new JButton("SET");
-		
-		btnStart = new JButton("START");
-		
-		btnStop = new JButton("STOP");
 		
 		btnInterferenza = new JButton("INTERFERENZA");
 		
@@ -85,11 +79,7 @@ public class TotalWaveWidget extends JPanel{
 								.addComponent(btnMaxX)))
 						.addComponent(btnInterferenza)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnStart)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnStop))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblTime)
+							.addComponent(lblT)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(txtTime, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 							.addGap(13)
@@ -100,21 +90,17 @@ public class TotalWaveWidget extends JPanel{
 							.addComponent(txtInterval, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnInterval)))
-					.addContainerGap(52, Short.MAX_VALUE))
+					.addContainerGap(222, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(27)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTime)
+						.addComponent(lblT)
 						.addComponent(btnSetTime)
 						.addComponent(txtTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(28)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnStart)
-						.addComponent(btnStop))
-					.addGap(18)
+					.addGap(71)
 					.addComponent(btnInterferenza)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)

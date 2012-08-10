@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 public class WaveViewer extends JFrame {
 
@@ -17,6 +18,7 @@ public class WaveViewer extends JFrame {
 	private JLabel lblNewLabel;
 
 	public WaveViewer() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WaveViewer.class.getResource("/it/valsecchi/waver/panel/wave_ico.png")));
 		creator = new WaveCreator();
 		creator.setVisible(true);
 		this.initComponent();

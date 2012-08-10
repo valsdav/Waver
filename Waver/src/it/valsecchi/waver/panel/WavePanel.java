@@ -19,7 +19,9 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 	private int height;
 	private WaveType panel_type;
 	private TotalWaveWidget total_widget;
-	private Map<String, WaveFormula> waves;
+	private LocalWaveWidget local_widget;
+	private GlobalWaveWidget global_widget;
+	private Map<String, WaveData> waves;
 	private WavePanelGraph graph;
 	private JPanel panel;
 
@@ -30,7 +32,7 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 		this.width = width;
 		this.height = height;
 		this.waves = new HashMap<>();
-		//maxY impostata di default a 10;
+		// maxY impostata di default a 10;
 		this.graph = new WavePanelGraph(type, 5, 5, width - (width / 6),
 				height - 11, maxX, 5);
 		graph.addTimerListener(this);
@@ -40,6 +42,10 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 		initComponent();
 	}
 
+	/**
+	 * In questo metodo vengono inseriti i pannelli "widget" a seconda del tipo
+	 * di pannello.
+	 */
 	private void initComponent() {
 		// si aggiungono i pulsanti in base al tipo
 		switch (panel_type) {
@@ -49,7 +55,7 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 					height - 11);
 			panel.add(total_widget);
 			total_widget.txtTime.setText("0.0");
-			total_widget.btnSet.addActionListener(new ActionListener() {
+			total_widget.btnSetTime.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					graph.setTime(Float.parseFloat(total_widget.txtTime
@@ -78,19 +84,125 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 			total_widget.btnMaxX.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					graph.setMaxX(Math.round(Float.parseFloat(total_widget.txtMaxX.getText())));
+					graph.setMaxX(Math.round(Float
+							.parseFloat(total_widget.txtMaxX.getText())));
 				}
 			});
 			total_widget.btnMaxY.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					graph.setMaxY(Math.round(Float.parseFloat(total_widget.txtMaxY.getText())));
+					graph.setMaxY(Math.round(Float
+							.parseFloat(total_widget.txtMaxY.getText())));
 				}
 			});
 			total_widget.btnInterval.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					graph.setValues_interval(Math.round(Float.parseFloat(total_widget.txtInterval.getText())));
+					graph.setValues_interval(Math.round(Float
+							.parseFloat(total_widget.txtInterval.getText())));
+				}
+			});
+			break;
+		case LOCAL:
+			local_widget = new LocalWaveWidget();
+			local_widget.setBounds(width - (width / 6), 5, width / 6 - 5,
+					height - 11);
+			panel.add(local_widget);
+			local_widget.txtPosition.setText("0.0");
+			local_widget.btnSetX.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					for (String id : waves.keySet()) {
+						graph.addWaveFormula(
+								id,
+								waves.get(id)
+										.getLocalWave(
+												Float.parseFloat(local_widget.txtPosition
+														.getText())));
+					}
+					if (graph.containsFormula("intererenza")) {
+						graph.addInterferenza();
+					}
+					graph.repaint();
+				}
+			});
+			local_widget.btnInterferenza
+					.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							graph.addInterferenza();
+						}
+					});
+			local_widget.btnMaxX.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setMaxX(Math.round(Float
+							.parseFloat(local_widget.txtMaxX.getText())));
+				}
+			});
+			local_widget.btnMaxY.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setMaxY(Math.round(Float
+							.parseFloat(local_widget.txtMaxY.getText())));
+				}
+			});
+			local_widget.btnInterval.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setValues_interval(Math.round(Float
+							.parseFloat(local_widget.txtInterval.getText())));
+				}
+			});
+			break;
+		case GLOBAL:
+			global_widget = new GlobalWaveWidget();
+			global_widget.setBounds(width - (width / 6), 5, width / 6 - 5,
+					height - 11);
+			panel.add(global_widget);
+			global_widget.txtTime.setText("0.0");
+			global_widget.btnSetTime.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					for (String id : waves.keySet()) {
+						graph.addWaveFormula(
+								id,
+								waves.get(id).getGlobalWave(
+										Float.parseFloat(global_widget.txtTime
+												.getText())));
+					}
+					if (graph.containsFormula("interferenza")) {
+						graph.addInterferenza();
+					}
+					graph.repaint();
+				}
+			});
+			global_widget.btnInterferenza
+					.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							graph.addInterferenza();
+						}
+					});
+			global_widget.btnMaxX.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setMaxX(Math.round(Float
+							.parseFloat(global_widget.txtMaxX.getText())));
+				}
+			});
+			global_widget.btnMaxY.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setMaxY(Math.round(Float
+							.parseFloat(global_widget.txtMaxY.getText())));
+				}
+			});
+			global_widget.btnInterval.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graph.setValues_interval(Math.round(Float
+							.parseFloat(global_widget.txtInterval.getText())));
 				}
 			});
 			break;
@@ -116,9 +228,9 @@ public class WavePanel extends JPanel implements WaveManager, TimerListener {
 			formula = wave.getTotalWave();
 			break;
 		}
-		waves.put(id, formula);
+		waves.put(id, wave);
 		graph.addWaveFormula(id, formula);
-	    graph.setMaxY(graph.getMaxY() + (int) wave.getAmpiezza());
+		graph.setMaxY(graph.getMaxY() + (int) wave.getAmpiezza());
 		graph.repaint();
 	}
 
